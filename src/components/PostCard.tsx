@@ -8,6 +8,7 @@ export type Post = {
   author: string;
   caption: string;
   image: ImageSourcePropType;
+  avatar?: ImageSourcePropType; // profile picture sa matag author
   likes: number;
 };
 
@@ -15,13 +16,14 @@ export default function PostCard({ post }: { post: Post }) {
   const [liked, setLiked] = useState(false);
   const likes = post.likes + (liked ? 1 : 0);
 
+  // Kung naay avatar, kana ang gamiton. Kung wala, online nga litrato nga lahi matag author.
+  const avatarSource: ImageSourcePropType =
+    post.avatar ?? { uri: `https://i.pravatar.cc/100?u=${post.author}` };
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Image
-          source={{ uri: `https://picsum.photos/seed/${post.author}/100/100` }}
-          style={styles.avatar}
-        />
+        <Image source={avatarSource} style={styles.avatar} />
         <Text style={styles.author}>{post.author}</Text>
       </View>
 
